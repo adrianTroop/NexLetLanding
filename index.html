@@ -94,23 +94,29 @@
       padding: 6rem 2rem 4rem;
     }
 
-    .hero .logo-img {
-      width: min(420px, 80vw);
+    .hero-logo {
       margin-bottom: 2.5rem;
       opacity: 0;
       animation: fadeUp 1s ease forwards;
+      text-align: center;
     }
 
-    .hero .tagline {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      font-weight: 300;
-      letter-spacing: 0.12em;
+    .hero-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: var(--dark);
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(0.75rem, 1.8vw, 1.1rem);
+      font-weight: 400;
+      letter-spacing: 0.22em;
       color: var(--mid-gray);
-      text-transform: uppercase;
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.2s forwards;
     }
 
     .hero h1 {
@@ -573,7 +579,10 @@
 
   <!-- HERO -->
   <section class="hero" id="hero">
-    <img src="Assets/Logo.png" alt="Nexlet — The Trust Layer for Luxury Rentals" class="logo-img">
+    <div class="hero-logo" aria-label="Nexlet — The Trust Layer for Luxury Rentals">
+      <div class="hero-brand">NEXLET</div>
+      <div class="hero-subtitle">THE TRUST LAYER FOR LUXURY RENTALS</div>
+    </div>
     <p>Verified sourcing for luxury property owners. Trusted access for agents. One platform that puts confidence at the centre of every booking.</p>
     <div class="cta-group">
       <a href="#early-access">Request Early Access</a>

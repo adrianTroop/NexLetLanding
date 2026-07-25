@@ -3,6 +3,14 @@ import { supabase } from '../lib/supabase'
 
 const IDLE_NOTE = 'No public sign-up. Every account is reviewed.'
 
+// Values must satisfy request_access_desired_role_check: owner_admin | agent | owner | client.
+// The page also invites vendors (chefs, drivers, security) but the product model has no such
+// role yet — adding one needs that CHECK extended first.
+const ROLES = [
+  ['agent', 'Agent'],
+  ['owner', 'Owner'],
+] as const
+
 export default function AccessForm() {
   const [email, setEmail] = useState('')
   const [role, setRole] = useState('')
@@ -19,21 +27,20 @@ export default function AccessForm() {
 
     if (!supabase) {
       // ponytail: no backend configured — keep the request locally so nothing is lost
-      const waitlist = JSON.parse(localStorage.getItem('nexlet_waitlist') || '[]')
-      waitlist.push({ email: clean, role, timestamp: new Date().toISOString() })
-      localStorage.setItem('nexlet_waitlist', JSON.stringify(waitlist))
+      const pending = JSON.parse(localStorage.getItem('nexlet_access_requests') || '[]')
+      pending.push({ email: clean, desired_role: role, timestamp: new Date().toISOString() })
+      localStorage.setItem('nexlet_access_requests', JSON.stringify(pending))
       setStatus('success')
       setNote('Request received — we will be in touch.')
       return
     }
 
-    const { error } = await supabase.from('waitlist').insert([{ email: clean, role }])
+    // status defaults to 'pending'; the anon RLS policy allows insert only, never select
+    const { error } = await supabase.from('request_access').insert([{ email: clean, desired_role: role }])
 
     if (error) {
       setStatus('error')
-      setNote(error.code === '23505' // pg unique_violation — was sniffing the message string
-        ? 'This email is already on the list.'
-        : 'Something went wrong. Please try again.')
+      setNote('Something went wrong. Please try again.')
     } else {
       setStatus('success')
       setNote('Request received — we will be in touch.')
@@ -46,9 +53,7 @@ export default function AccessForm() {
         <>
           <select value={role} onChange={(e) => setRole(e.target.value)} required aria-label="You are">
             <option value="" disabled>You are…</option>
-            <option value="agent">Agent</option>
-            <option value="owner">Owner</option>
-            <option value="vendor">Vendor</option>
+            {ROLES.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
           </select>
           <input
             type="email"

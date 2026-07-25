@@ -73,11 +73,10 @@ export default function App() {
       <section>
         <div className="wrap">
           <div className="eyebrow">Who it is for</div>
-          <h2>Invited, in three <em>groups.</em></h2>
+          <h2>Invited, in two <em>groups.</em></h2>
           <div className="who">
             <div className="card"><div className="r">Agents</div><h3>The ones with the clients</h3><p>Keep your commission, your clients and your name. We supply the infrastructure, never the demand.</p></div>
             <div className="card"><div className="r">Owners</div><h3>The ones with the houses</h3><p>Stay off-market and stay in control — while the weeks that usually go empty stop going empty.</p></div>
-            <div className="card"><div className="r">Vendors</div><h3>Chefs, drivers, security</h3><p>Be discoverable to the agents booking the season, and get hired inside the same transaction.</p></div>
           </div>
         </div>
       </section>
